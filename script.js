@@ -74,7 +74,7 @@ drone.on('open', error => {
       addMember(member.id);
    });
    // Exclui da lista o usuário que acabou de sair da sala
-   room.on('member_leave', id => {
+   room.on('member_leave', ({id}) => {
       onLog('Saiu um membro com id = ' + id);
       const index = clients.findIndex(member => member.id === id);
       clients.splice(index, 1);
@@ -96,7 +96,7 @@ function startWebRTC(qtdMembers){
    // Se é o segundo usuário por diante oferece a conexão aos usuários online
    if(qtdMembers > 1){
       clients.forEach(client => {
-         client.pc.createOffer(offerOptions)
+         client.pc.createOffer()
                 .then(offer => client.pc.setLocalDescription(offer))
                 .then(() => {
                    sendMessage({'sdp': client.pc.localDescription}, client.id);
