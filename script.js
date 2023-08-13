@@ -33,7 +33,7 @@ function addMember(id){
          // Envia um novo 'candidate' local descoberto para os membros na sala
          client.pc.onicecandidate = event => {
             if(event.candidate){
-               onLog('Candidate enviado pelo pc[' + index + ']');
+               onLog(`Candidate enviado pelo cliente ${client.id}`);
                sendMessage({'candidate': event.candidate}, client.id);
             }
          };
