@@ -32,10 +32,12 @@ function showMessage(author, message){
           <div class="content">${msgParse.content}</div>
           <div class="time">${msgParse.time}</div>
        </div>`;
-   document.body.innerHTML += msg;
+   messages.innerHTML += msg;
 }
 function sendData(){
    const data = newMsg.value;
+   newMsg.value = '';
+   newMsg.focus();
    var time = new Date();
    var message = JSON.stringify({
       'username': username,
@@ -45,7 +47,6 @@ function sendData(){
    clients.forEach(client => {
       client.dc.send(message);
    });
-   newMsg.value = '';
    showMessage('me', message);
    onLog(`Mensagem enviada: ${data}`);
 }
