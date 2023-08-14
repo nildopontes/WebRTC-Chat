@@ -33,16 +33,16 @@ function showMessage(author, message){
 function sendData(){
    const data = newMsg.value;
    var time = new Date();
-   var message = {
-      "username": "username",
-      "content": data,
-      "time": `${time.getHours()}:${time.getMinutes()}`
-   };
+   var message = JSON.stringify({
+      username: 'username',
+      content: data,
+      time: `${time.getHours()}:${time.getMinutes()}`
+   });
    clients.forEach(client => {
-      client.dc.send(JSON.stringify(message))q;
+      client.dc.send(message);
    });
    newMsg.value = '';
-   showMessage('me',);
+   showMessage('me', message);
    onLog(`Mensagem enviada: ${data}`);
 }
 function addMember(id){
