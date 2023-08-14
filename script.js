@@ -21,13 +21,13 @@ function onLog(msg){
 }
 // Exibe a mensagem, enviada ou recebida, na tela
 function showMessage(author, message){
-   var message =
+   var msg =
       `<div class="msg ${author}">
-          <div class="username">${username}</div>
-          <div class="content">${content}</div>
-          <div class="time">${time}</div>
+          <div class="username">${message.username}</div>
+          <div class="content">${message.content}</div>
+          <div class="time">${message.time}</div>
        </div>`;
-   document.body.innerHTML += message;
+   document.body.innerHTML += msg;
 }
 function sendData(){
    const data = newMsg.value;
