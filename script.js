@@ -10,14 +10,14 @@ const configuration = {
 };
 var room;
 document.addEventListener("DOMContentLoaded", function() {
-   onLog('Documento carregado');
+   onLog(`Documento carregado`);
 });
 // [{id:'string', pc: new RTCPeerConnection(), dc: rtcp.createDataChannel('dc')},...]
 var clients = [];
 
 // Escreve no console
 function onLog(msg){
-   console.log(msg + '\n');
+   console.log(`${msg}\n`);
 }
 function sendData(){
    const data = newMsg.value;
@@ -57,12 +57,12 @@ drone.on('open', error => {
    });
    // Evento que dispara somente 1 vez ao entrar na sala. Retorna os membros online
    room.on('members', members => {
-      onLog('Entrei na sala com id = ' + drone.clientId + '. Usuarios online: ' + (members.length-1));
+      onLog(`Entrei na sala com id ${drone.clientId}. Usuarios online: ${(members.length-1)}`);
       if(members.length > 1){
          members.forEach(member => {
             if(member.id != drone.clientId){
                addMember(member.id);
-               onLog('Cliente com id = ' + member.id + ' presente na sala, foi adicionado à lista local');
+               onLog(`Cliente com id ${member.id} presente na sala, foi adicionado à lista local`);
             }
          });
       }
@@ -70,13 +70,13 @@ drone.on('open', error => {
    });
    // Adiciona à lista um usuário que acabou de entrar na sala
    room.on('member_join', member => {
-      onLog('Um membro novo entrou com id = ' + member.id);
+      onLog(`Um membro novo entrou com id ${member.id}`);
       addMember(member.id);
    });
    // Exclui da lista o usuário que acabou de sair da sala
-   room.on('member_leave', ({id}) => {
-      onLog('Saiu um membro com id = ' + id);
-      const index = clients.findIndex(member => member.id === id);
+   room.on('member_leave', member => {
+      onLog(`Saiu um membro com id ${member.id}`);
+      const index = clients.findIndex(client => client.id === member.id);
       clients.splice(index, 1);
    });
 });
@@ -85,14 +85,14 @@ drone.on('open', error => {
 function sendMessage(message, destinyId){
    if(destinyId == '') return;
    message.destiny = destinyId;
-   onLog('Enviando para ' + message.destiny);
+   onLog(`Enviando para ${message.destiny}`);
    drone.publish({
       room: roomName,
       message
    });
 }
 function startWebRTC(qtdMembers){
-   onLog('startWebRTC(' + qtdMembers + ')');
+   onLog(`startWebRTC(${qtdMembers})`);
    // Se é o segundo usuário por diante oferece a conexão aos usuários online
    if(qtdMembers > 1){
       clients.forEach(client => {
@@ -109,7 +109,7 @@ function startWebRTC(qtdMembers){
       if(message.destiny != drone.clientId) return;
       const index = clients.findIndex(member => member.id === client.id);
       if(message.sdp){ // Mensagem é uma descrição da sessão remota
-         onLog('SDP recebido de ' + client.id);
+         onLog(`SDP recebido de ${client.id}`);
          clients[index].pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
             // Respondemos a mensagem com nossos dados
             if(clients[index].pc.remoteDescription.type === 'offer'){
@@ -120,7 +120,7 @@ function startWebRTC(qtdMembers){
             }
          }, onLog);
       }else if(message.candidate){ // Mensagem é um candidate ICE
-         onLog('Candidate recebido de ' + client.id);
+         onLog(`Candidate recebido de ${client.id}`);
          // Adiciona à conexão local o novo ICE candidate recebido da conexão remota
          clients[index].pc.addIceCandidate(message.candidate).catch(err => onLog(err));
       }

@@ -10,37 +10,79 @@
       <script src="script.js"></script>
       <style>
          body{
-            background:white;
+            background:#87CEFA;
             padding:0;
             height:100vh;
             width:100vw;
             margin:0;
             color:white;
+            font-family:Helvetica;
          }
          .msg{
-            width:100%;
+            padding:5px;
+            width:70%;
             height:auto;
-            margin-top:10px;
-            margin-bottom:10px;
-            background:gray;
-            color:white;
+            margin-top:5px;
+            margin-bottom:5px;
+            background:white;
+            color:#757575;
          }
+         .me{
+            float:right;
+            margin-right:10px;
+            border-radius:8px 8px 0 8px;
+          }
+         .other{
+            float:left;
+            margin-left:10px;
+            border-radius:8px 8px 8px 0;
+          }
          .inputs{
             width:100%;
             height:100px;
             position:fixed;
             bottom:0;
             left:0;
-            background:yellow;
+         }
+         #newMsg{
+            width:80%;
+            height:90%;
+            margin-left:2%;
+         }
+         #send{
+            vertical-align:top;
+            width:36px;
+            height:36px;
+            border-radius:18px;
+            color:white;
+            line-height:36px;
+            font-size:30px;
+            border:none;
+            background:gray;
          }
       </style>
    </head>
    <body>
       <div class="inputs">
          <textarea id="newMsg"></textarea>
-         <input type="button" value="Enviar" onclick="sendData()">
+         <input id="send" type="button" value="&#10148;" onclick="sendData()">
       </div>
-      <div class="msg">Mensagem de teste</div>
+      <div class="msg me">
+         <div class="username">username</div>
+         <div class="content"> Mensagem de teste</div>
+         <div class="meta">
+            <span class="time">10:45</span>
+            <span class="status"><span>&#10003;</span><span>&#10003;</span></span>
+         </div>
+      </div>
+      <div class="msg other">
+         <div class="username">username</div>
+         <div class="content"> Mensagem de teste</div>
+         <div class="meta">
+            <span class="time">10:45</span>
+            <span class="status"><span>&#10003;</span><span>&#10003;</span></span>
+         </div>
+      </div>
    </body>
 </html>
 
