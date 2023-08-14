@@ -29,7 +29,7 @@ function showMessage(author, message){
        </div>`;
    document.body.innerHTML += message;
 }
-function sendMessage(){
+function sendData(){
    const data = newMsg.value;
    var time = new Date();
    var message = {
