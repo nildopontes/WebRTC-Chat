@@ -77,6 +77,12 @@ drone.on('open', error => {
    // Evento que dispara somente 1 vez ao entrar na sala. Retorna os membros online
    room.on('members', members => {
       onLog(`Entrei na sala com id ${drone.clientId}. Usuarios online: ${(members.length-1)}`);
+      if(members.length == 1){
+         header.innerHTML = 'Sala vazia';
+      }else{
+         header.innerHTML = `${members.length - 1} usuários online`;
+      }
+      localStorage.setItem('members', members.length);
       if(members.length > 1){
          members.forEach(member => {
             if(member.id != drone.clientId){
@@ -91,12 +97,16 @@ drone.on('open', error => {
    room.on('member_join', member => {
       onLog(`Um membro novo entrou com id ${member.id}`);
       addMember(member.id);
+      localStorage.setItem('members', parseInt(localStorage.getItem('members'), 10) + 1);
+      header.innerHTML = `${localStorage.getItem('members')} usuários online`;
    });
    // Exclui da lista o usuário que acabou de sair da sala
    room.on('member_leave', member => {
       onLog(`Saiu um membro com id ${member.id}`);
       const index = clients.findIndex(client => client.id === member.id);
       clients.splice(index, 1);
+      localStorage.setItem('members', parseInt(localStorage.getItem('members'), 10) - 1);
+      header.innerHTML = `${localStorage.getItem('members')} usuários online`;
    });
 });
 
