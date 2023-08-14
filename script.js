@@ -33,6 +33,8 @@ function showMessage(author, message){
           <div class="time">${msgParse.time}</div>
        </div>`;
    messages.innerHTML += msg;
+   var msgList = document.querySelectorAll('div.msg');
+   msgList[msgList.length-1].scrollIntoView();
 }
 function sendData(){
    const data = newMsg.value;
