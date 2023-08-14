@@ -36,9 +36,9 @@ function sendData(){
       "username": "username",
       "content": data,
       "time": `${time.getHours()}:${time.getMinutes()}`
-   }
+   };
    clients.forEach(client => {
-      client.dc.send(data);
+      client.dc.send(message);
    });
    newMsg.value = '';
    showMessage('me',);
