@@ -1,6 +1,10 @@
 'use strict';
 const drone = new ScaleDrone('OOgX7u3om3pEfCPf');
-
+var username = localStorage.getItem('username');
+if(username === null){
+   username = prompt('Escolha um nome de usuário');
+   localStorage.setItem('username', username);
+}
 // Nome da sala deve ser precedido de 'observable-'
 const roomName = 'observable-nildopontes';
 const configuration = {
@@ -34,9 +38,9 @@ function sendData(){
    const data = newMsg.value;
    var time = new Date();
    var message = JSON.stringify({
-      username: 'username',
-      content: data,
-      time: `${time.getHours()}:${time.getMinutes()}`
+      'username': username,
+      'content': data,
+      'time': `${time.getHours()}:${time.getMinutes()}`
    });
    clients.forEach(client => {
       client.dc.send(message);
