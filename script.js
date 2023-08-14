@@ -40,7 +40,7 @@ function sendData(){
    var message = JSON.stringify({
       'username': username,
       'content': data,
-      'time': `${time.getHours()}:${time.getMinutes()}`
+      'time': `${('0' + time.getHours()).slice(-2)}:${('0' + time.getMinutes()).slice(-2)}`
    });
    clients.forEach(client => {
       client.dc.send(message);
