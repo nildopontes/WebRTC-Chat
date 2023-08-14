@@ -21,11 +21,12 @@ function onLog(msg){
 }
 // Exibe a mensagem, enviada ou recebida, na tela
 function showMessage(author, message){
+   var msgParse = JSON.parse(message);
    var msg =
       `<div class="msg ${author}">
-          <div class="username">${message.username}</div>
-          <div class="content">${message.content}</div>
-          <div class="time">${message.time}</div>
+          <div class="username">${msgParse.username}</div>
+          <div class="content">${msgParse.content}</div>
+          <div class="time">${msgParse.time}</div>
        </div>`;
    document.body.innerHTML += msg;
 }
@@ -38,7 +39,7 @@ function sendData(){
       "time": `${time.getHours()}:${time.getMinutes()}`
    };
    clients.forEach(client => {
-      client.dc.send(message);
+      client.dc.send(JSON.stringify(message))q;
    });
    newMsg.value = '';
    showMessage('me',);
