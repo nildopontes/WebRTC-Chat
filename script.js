@@ -12,18 +12,36 @@ var room;
 document.addEventListener("DOMContentLoaded", function() {
    onLog(`Documento carregado`);
 });
-// [{id:'string', pc: new RTCPeerConnection(), dc: rtcp.createDataChannel('dc')},...]
+// [{id:'string', pc: new RTCPeerConnection(configuration), dc: rtcp.createDataChannel('dc', iptions)},...]
 var clients = [];
 
 // Escreve no console
 function onLog(msg){
    console.log(`${msg}\n`);
 }
-function sendData(){
+// Exibe a mensagem, enviada ou recebida, na tela
+function showMessage(author, message){
+   var message =
+      `<div class="msg ${author}">
+          <div class="username">${username}</div>
+          <div class="content">${content}</div>
+          <div class="time">${time}</div>
+       </div>`;
+   document.body.innerHTML += message;
+}
+function sendMessage(){
    const data = newMsg.value;
+   var time = new Date();
+   var message = {
+      "username": "username",
+      "content": data,
+      "time": `${time.getHours()}:${time.getMinutes()}`
+   }
    clients.forEach(client => {
       client.dc.send(data);
    });
+   newMsg.value = '';
+   showMessage('me',);
    onLog(`Mensagem enviada: ${data}`);
 }
 function addMember(id){
