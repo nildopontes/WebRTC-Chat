@@ -57,7 +57,7 @@ function addMember(id){
          };
          client.dc = client.pc.createDataChannel(`_${client.id}`, {negotiated: true, id: 0});
          client.dc.onmessage = (event) => {
-            console.log(event.data); // Adicionar a mensagem na tela
+            showMessage('other', event.data);
          };
       }
    });
