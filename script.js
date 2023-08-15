@@ -13,7 +13,8 @@ const configuration = {
    }]
 };
 var room;
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function(){
+   document.body.style.height = `${window.innerHeight}px`;
    onLog(`Documento carregado`);
 });
 // [{id:'string', pc: new RTCPeerConnection(configuration), dc: rtcp.createDataChannel('dc', iptions)},...]
