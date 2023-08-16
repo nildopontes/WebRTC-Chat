@@ -2,8 +2,7 @@
 const drone = new ScaleDrone('OOgX7u3om3pEfCPf');
 var username = localStorage.getItem('username');
 if(username === null){
-   username = prompt('Escolha um nome de usuário');
-   localStorage.setItem('username', username);
+   setUsername();
 }
 // Nome da sala deve ser precedido de 'observable-'
 const roomName = 'observable-nildopontes';
@@ -13,8 +12,10 @@ const configuration = {
    }]
 };
 var room;
-document.addEventListener("DOMContentLoaded", function(){
-   document.body.style.height = `${window.innerHeight}px`;
+document.addEventListener('DOMContentLoaded', function(){
+   var hBox = window.innerHeight;
+   document.body.style.height = `${hBox}px`;
+   document.body.style.visibility = `visible`;
    onLog(`Documento carregado`);
 });
 // [{id:'string', pc: new RTCPeerConnection(configuration), dc: rtcp.createDataChannel('dc', iptions)},...]
@@ -24,14 +25,26 @@ var clients = [];
 function onLog(msg){
    console.log(`${msg}\n`);
 }
+function setUsername(){
+   var name = prompt('Escolha um nome de usuário');
+   if(name === null || name.length == 0){
+      if(username === null || username.length == 0){
+         username = 'Anônimo';
+      }
+   }else{
+      username = name;
+   }
+   localStorage.setItem('username', username);
+}
 // Exibe a mensagem, enviada ou recebida, na tela
 function showMessage(author, message){
    var msgParse = JSON.parse(message);
+   var currentTime = new Date();
    var msg =
       `<div class="msg ${author}">
-          <div class="username">${msgParse.username}</div>
-          <div class="content">${msgParse.content}</div>
-          <div class="time">${msgParse.time}</div>
+          <div class="username">${msgParse.username.replaceAll('<', '&lt;').replaceAll('>', '&gt;').slice(0, 16)}</div>
+          <div class="content">${msgParse.content.replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</div>
+          <div class="time">${('0' + currentTime.getHours()).slice(-2)}:${('0' + currentTime.getMinutes()).slice(-2)}</div>
        </div>`;
    messages.innerHTML += msg;
    var msgList = document.querySelectorAll('div.msg');
@@ -41,11 +54,9 @@ function sendData(){
    const data = newMsg.value;
    newMsg.value = '';
    newMsg.focus();
-   var time = new Date();
    var message = JSON.stringify({
       'username': username,
-      'content': data,
-      'time': `${('0' + time.getHours()).slice(-2)}:${('0' + time.getMinutes()).slice(-2)}`
+      'content': data
    });
    clients.forEach(client => {
       client.dc.send(message);
@@ -86,9 +97,9 @@ drone.on('open', error => {
    room.on('members', members => {
       onLog(`Entrei na sala com id ${drone.clientId}. Usuarios online: ${(members.length-1)}`);
       if(members.length == 1){
-         header.innerHTML = 'Sala vazia';
+         memberOn.innerHTML = 'Sala vazia';
       }else{
-         header.innerHTML = `${members.length - 1} usuários online`;
+         memberOn.innerHTML = `${members.length - 1} usuários online`;
       }
       localStorage.setItem('members', members.length);
       if(members.length > 1){
@@ -106,7 +117,7 @@ drone.on('open', error => {
       onLog(`Um membro novo entrou com id ${member.id}`);
       addMember(member.id);
       localStorage.setItem('members', parseInt(localStorage.getItem('members'), 10) + 1);
-      header.innerHTML = `${localStorage.getItem('members')} usuários online`;
+      memberOn.innerHTML = `${localStorage.getItem('members')} usuários online`;
    });
    // Exclui da lista o usuário que acabou de sair da sala
    room.on('member_leave', member => {
@@ -114,7 +125,7 @@ drone.on('open', error => {
       const index = clients.findIndex(client => client.id === member.id);
       clients.splice(index, 1);
       localStorage.setItem('members', parseInt(localStorage.getItem('members'), 10) - 1);
-      header.innerHTML = `${localStorage.getItem('members')} usuários online`;
+      memberOn.innerHTML = `${localStorage.getItem('members')} usuários online`;
    });
 });
 

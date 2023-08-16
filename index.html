@@ -5,15 +5,13 @@
       <meta charset="UTF-8"/>
       <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
       <script src="https://cdn.scaledrone.com/scaledrone.min.js"></script>
-      <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-      <script>eruda.init();</script>
       <script src="script.js"></script>
       <style>
          body{
-            background:#F5F5F5;
+            background:#E6E6E6;
             padding:0;
-            height:100vh;
             width:100vw;
+            visibility:hidden;
             margin:0;
             font-family:Helvetica;
             overflow-wrap:break-word;
@@ -25,6 +23,7 @@
             -moz-hyphens: auto;
             -webkit-hyphens: auto;
             hyphens: auto;
+            color:#757575;
          }
          .msg{
             padding:5px;
@@ -75,21 +74,23 @@
          .username{
             font-weight:bold;
          }
-         #header{
+         .header{
             width:100%;
             height:20px;
-            background:gray;
-            color:white;
+            background:#CED8F6;
          }
          #messages{
             width:100%;
             height:calc(100% - 120px);
             overflow-y:scroll;
          }
+         .profile{
+            float:right;
+         }
       </style>
    </head>
    <body>
-      <div id="header"></div>
+      <div class="header"><span id="memberOn"></span><span class="profile" onclick="setUsername()">&#128100;</span></div>
       <div id="messages"></div>
       <div class="inputs">
          <textarea id="newMsg"></textarea>
