@@ -6,6 +6,8 @@
       <meta name="viewport" content="width=device-width, user-scalable=no">
       <script src="https://cdn.scaledrone.com/scaledrone.min.js"></script>
       <script src="script.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+      <script>eruda.init();</script>
       <style>
          body{
             background:repeat url('bg.jpeg');
@@ -89,7 +91,7 @@
          }
          #messages{
             width:calc(100vw + 50px);
-            height:calc(100vh - 70px);
+            height:calc(100% - 70px);
             overflow-y:scroll;
          }
          .profile{
