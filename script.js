@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function(){
    var hBox = window.innerHeight;
    document.body.style.height = `${hBox}px`;
    document.body.style.visibility = `visible`;
+   newMsg.addEventListener('keypress', function(event){
+      if(event.key === 'Enter') {
+         sendData();
+      }
+   });
    onLog(`Documento carregado`);
 });
 // [{id:'string', pc: new RTCPeerConnection(configuration), dc: rtcp.createDataChannel('dc', iptions)},...]
@@ -25,18 +30,7 @@ var clients = [];
 function onLog(msg){
    console.log(`${msg}\n`);
 }
-function setUsername(){
-   var name = prompt('Escolha um nome de usuário');
-   if(name === null || name.length == 0){
-      if(username === null || username.length == 0){
-         username = 'Anônimo';
-      }
-   }else{
-      username = name;
-   }
-   localStorage.setItem('username', username);
-}
-// Exibe a mensagem, enviada ou recebida, na tela
+// Exibe a mensagem enviada ou recebida
 function showMessage(author, message){
    var msgParse = JSON.parse(message);
    var currentTime = new Date();
@@ -51,7 +45,11 @@ function showMessage(author, message){
    msgList[msgList.length-1].scrollIntoView();
 }
 function sendData(){
-   const data = newMsg.value;
+   const data = newMsg.value.trim();
+   if(data.length == 0){
+      newMsg.value = '';
+      return;
+   }
    newMsg.value = '';
    newMsg.focus();
    var message = JSON.stringify({
@@ -129,7 +127,7 @@ drone.on('open', error => {
    });
 });
 
-// Envia uma mensagem pelo servidor de sinalização para os membros na  sala
+// Envia uma mensagem pelo servidor de sinalização para os membros na sala
 function sendMessage(message, destinyId){
    if(destinyId == '') return;
    message.destiny = destinyId;
