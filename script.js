@@ -2,7 +2,7 @@
 const drone = new ScaleDrone('OOgX7u3om3pEfCPf');
 var username = localStorage.getItem('username');
 if(username === null){
-   setUsername();
+   setUserName();
 }
 // Nome da sala deve ser precedido de 'observable-'
 const roomName = 'observable-nildopontes';
@@ -30,6 +30,19 @@ var clients = [];
 function onLog(msg){
    console.log(`${msg}\n`);
 }
+
+function setUserName(){
+   var name = prompt('Escolha um nome de usuário');
+   if(name === null || name.length == 0){
+      if(username === null || username.length == 0){
+         username = 'Anônimo';
+      }
+   }else{
+      username = name;
+   }
+   localStorage.setItem('username', username);
+}
+
 // Exibe a mensagem enviada ou recebida
 function showMessage(author, message){
    var msgParse = JSON.parse(message);
